@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  h1, h2, h3, .font-serif-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .font-royal {
+    font-family: 'Cinzel', serif;
+  }
+}
+
+/* Dual Atmosphere Theme: Ivory Royal (Light Mode) Styles */
+.theme-ivory {
+  background-color: #fbf9f5 !important;
+  color: #1c1917 !important;
+}
+
+.theme-ivory header,
+.theme-ivory nav {
+  background-color: rgba(251, 249, 245, 0.96) !important;
+  border-color: #e7e2d9 !important;
+}
+
+.theme-ivory header .text-white,
+.theme-ivory .text-white {
+  color: #1c1917 !important;
+}
+
+.theme-ivory section {
+  border-color: #ede8df !important;
+}
+
+.theme-ivory .bg-\[\#0a0a0a\],
+.theme-ivory .bg-\[\#0d0d0d\],
+.theme-ivory .bg-\[\#121212\],
+.theme-ivory .bg-\[\#141414\] {
+  background-color: #ffffff !important;
+  border-color: #ede8df !important;
+}
+
+.theme-ivory .bg-\[\#171717\],
+.theme-ivory .bg-\[\#181818\],
+.theme-ivory .bg-\[\#1a1a1a\] {
+  background-color: #f7f4ed !important;
+  border-color: #e7e2d9 !important;
+}
+
+.theme-ivory .bg-\[\#1f1f1f\],
+.theme-ivory .bg-\[\#212121\],
+.theme-ivory .bg-\[\#262626\] {
+  background-color: #ede7dc !important;
+  border-color: #dfd8cc !important;
+}
+
+.theme-ivory .bg-\[\#1c1810\],
+.theme-ivory .bg-\[\#1a1710\],
+.theme-ivory .bg-\[\#1f1a10\],
+.theme-ivory .bg-\[\#201d16\] {
+  background-color: #fefcf8 !important;
+  border-color: #e8dcc8 !important;
+}
+
+.theme-ivory .border-\[\#262626\],
+.theme-ivory .border-\[\#1f1f1f\],
+.theme-ivory .border-\[\#333333\] {
+  border-color: #ede8df !important;
+}
+
+.theme-ivory .text-\[\#a1a1aa\],
+.theme-ivory .text-\[\#71717a\] {
+  color: #57534e !important;
+}
+
+.theme-ivory .text-\[\#e5e5e5\] {
+  color: #1c1917 !important;
+}
+
+.theme-ivory input,
+.theme-ivory select,
+.theme-ivory textarea {
+  background-color: #ffffff !important;
+  color: #1c1917 !important;
+  border-color: #d6cfc3 !important;
+}
+
+.theme-ivory input::placeholder,
+.theme-ivory textarea::placeholder {
+  color: #a8a29e !important;
+}
+
+.theme-ivory .divide-\[\#1f1f1f\] > * + *,
+.theme-ivory .divide-\[\#262626\] > * + * {
+  border-color: #ede8df !important;
+}
+
+.theme-ivory ::-webkit-scrollbar-track {
+  background: #f5f2eb !important;
+}
+
+.theme-ivory ::-webkit-scrollbar-thumb {
+  background: #d6cfc3 !important;
+  border: 1px solid #c7bdad !important;
+}
+
+/* Custom delicate dark & gold scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0d0d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 9999px;
+  border: 1px solid #333333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c5a059;
+}
+
