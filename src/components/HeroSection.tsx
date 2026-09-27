@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Sparkles, ShieldCheck, Truck, Scissors, ArrowRight, Award, Volume2, VolumeX, Eye, Gift } from 'lucide-react';
-import { Currency } from '../types';
-import { loomAudio } from '../utils/loomAudio';
+import React, { useState } from 'react';
+import { Sparkles, ShieldCheck, Truck, Scissors, ArrowRight, Award, Eye } from 'lucide-react';
 
 interface HeroSectionProps {
   onExploreClick: () => void;
@@ -18,19 +16,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onSelectCategory,
   onOpenTrousseauTrunk
 }) => {
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [heroViewMode, setHeroViewMode] = useState<'bride' | 'loom'>('bride');
-
-  const handleToggleAudio = () => {
-    const active = loomAudio.toggle();
-    setIsAudioPlaying(active);
-  };
-
-  useEffect(() => {
-    return () => {
-      loomAudio.stop();
-    };
-  }, []);
 
   return (
     <section className="relative overflow-hidden bg-[#0a0a0a] py-12 lg:py-20 border-b border-[#262626]">
@@ -56,35 +42,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <Sparkles className="w-3.5 h-3.5 text-[#c5a059]" />
                 Collection No. 12 • Autumn Atelier 2026
               </div>
-
-              {/* Ambient Loom Soundscape Toggle */}
-              <button
-                id="loom-soundscape-toggle"
-                onClick={handleToggleAudio}
-                className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[10px] uppercase font-bold tracking-[0.2em] transition-all cursor-pointer border ${
-                  isAudioPlaying
-                    ? 'bg-[#c5a059]/20 text-[#c5a059] border-[#c5a059] shadow-sm'
-                    : 'bg-[#141414] text-[#a1a1aa] hover:text-[#c5a059] border-[#333333]'
-                }`}
-                title="Toggle traditional handloom weaving soundscape (Web Audio API)"
-              >
-                {isAudioPlaying ? (
-                  <>
-                    <Volume2 className="w-3.5 h-3.5 text-[#c5a059] animate-pulse" />
-                    <span>Loom Soundscape (Playing)</span>
-                    <span className="flex items-end gap-0.5 h-3 ml-0.5">
-                      <span className="w-0.5 h-full bg-[#c5a059] animate-bounce" style={{ animationDelay: '0ms' }} />
-                      <span className="w-0.5 h-2/3 bg-[#c5a059] animate-bounce" style={{ animationDelay: '150ms' }} />
-                      <span className="w-0.5 h-4/5 bg-[#c5a059] animate-bounce" style={{ animationDelay: '300ms' }} />
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <VolumeX className="w-3.5 h-3.5 text-[#71717a]" />
-                    <span>Listen to Loom (Audio)</span>
-                  </>
-                )}
-              </button>
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white leading-[1.08] tracking-tight">

@@ -3,12 +3,10 @@ import type { Request, Response } from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import Stripe from 'stripe';
-import { createServer as createViteServer } from 'vite';
 
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
 
 app.use(express.json());
 
@@ -270,31 +268,67 @@ app.get('/api/payment/orders/:orderNumber', (req: Request, res: Response) => {
 });
 
 // -------------------------------------------------------------
-// Vite Middleware / Static Serving
+// Vite Middleware / Static Serving & Multi-Environment Port Handling
 // -------------------------------------------------------------
 async function start() {
   try {
     // Serve public directory for static media assets (images, videos)
-    const publicPath = path.join(process.cwd(), 'public');
+    const publicPath = path.resolve(process.cwd(), 'public');
     app.use(express.static(publicPath));
 
-    if (process.env.NODE_ENV !== 'production') {
+    // Distinguish between the AI Studio dev container and deployed Cloud Run services
+    const isDev = process.env.K_SERVICE
+      ? process.env.K_SERVICE.startsWith('ais-dev-')
+      : process.env.NODE_ENV !== 'production';
+
+    if (isDev) {
+      // Dynamic import in development prevents loading heavyweight Vite in production
+      const { createServer: createViteServer } = await import('vite');
       const vite = await createViteServer({
         server: { middlewareMode: true },
         appType: 'spa',
       });
       app.use(vite.middlewares);
     } else {
-      const distPath = path.join(process.cwd(), 'dist');
+      const distPath = path.resolve(process.cwd(), 'dist');
+      const indexPath = path.join(distPath, 'index.html');
       app.use(express.static(distPath));
-      app.get('*', (_req: Request, res: Response) => {
-        res.sendFile(path.join(distPath, 'index.html'));
+
+      // Universal fallback for client-side routing (works on Express 4 & 5)
+      app.use((_req: Request, res: Response) => {
+        res.sendFile(indexPath);
       });
     }
 
-    app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Luxury Handloom Server running on http://0.0.0.0:${PORT}`);
+    // Port selection:
+    // - In AI Studio Dev environment, port 3000 is required because Nginx reverse proxies 8080 -> 3000.
+    // - In Cloud Run production deployment, Cloud Run sends traffic directly to PORT (default 8080).
+    const primaryPort = isDev
+      ? 3000
+      : (process.env.PORT ? parseInt(process.env.PORT, 10) : 3000);
+
+    const server = app.listen(primaryPort, '0.0.0.0', () => {
+      console.log(`Luxury Handloom Server running on http://0.0.0.0:${primaryPort} [mode=${isDev ? 'dev' : 'production'}]`);
     });
+
+    server.on('error', (err: any) => {
+      console.error('Primary server error:', err);
+    });
+
+    // In production, if Cloud Run assigned a port other than 3000 (e.g. 8080),
+    // also listen on port 3000 as secondary fallback in case an internal proxy is present.
+    if (!isDev && primaryPort !== 3000) {
+      try {
+        const secondary = app.listen(3000, '0.0.0.0', () => {
+          console.log(`Secondary listener active on port 3000`);
+        });
+        secondary.on('error', () => {
+          // Secondary port occupied or unavailable; non-fatal
+        });
+      } catch (_e) {
+        // Non-fatal
+      }
+    }
   } catch (err) {
     console.error('Failed to start server:', err);
     process.exit(1);

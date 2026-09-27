@@ -1,6 +1,6 @@
 {
   "name": "Varnam - Luxury Handloom & Designer Sarees",
   "description": "An exquisite online boutique showcasing handcrafted Indian sarees including authentic Kanjivaram silk, Banarasi zari, lightweight organza, Chanderi, and contemporary designer drapes with blouse styling and drape guides.",
-  "requestFramePermissions": ["camera"],
+  "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

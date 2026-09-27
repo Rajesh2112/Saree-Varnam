@@ -19,7 +19,7 @@ import { SilkCareGuideModal } from './components/SilkCareGuideModal';
 import { PaymentGatewayModal } from './components/PaymentGatewayModal';
 import { Footer } from './components/Footer';
 import { formatPrice } from './utils/formatters';
-import { Sparkles, SlidersHorizontal, Check, Heart, ShoppingBag, ArrowUpDown, Filter } from 'lucide-react';
+import { Sparkles, Check, Filter } from 'lucide-react';
 
 export default function App() {
   // State

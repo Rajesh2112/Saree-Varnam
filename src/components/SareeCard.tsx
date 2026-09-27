@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Eye, ShoppingBag, Star, Check, Sparkles } from 'lucide-react';
+import { Heart, Eye, ShoppingBag, Star, Check } from 'lucide-react';
 import { Saree, Currency } from '../types';
 import { formatPrice, calculateDiscount } from '../utils/formatters';
 
