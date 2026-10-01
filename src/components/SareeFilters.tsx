@@ -1,5 +1,5 @@
-import React from 'react';
-import { Filter, RotateCcw, Sparkles, Check } from 'lucide-react';
+import React, { useState } from 'react';
+import { Filter, RotateCcw, Sparkles, Check, ChevronDown, ChevronUp } from 'lucide-react';
 import { FilterState } from '../types';
 import { 
   FABRIC_CATEGORIES, 
@@ -19,6 +19,8 @@ export const SareeFilters: React.FC<SareeFiltersProps> = ({
   onFilterChange,
   totalCount
 }) => {
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+
   const handleReset = () => {
     onFilterChange({
       search: '',
@@ -39,17 +41,37 @@ export const SareeFilters: React.FC<SareeFiltersProps> = ({
     filters.color !== 'all' ||
     filters.priceRange[1] < 60000;
 
+  const activeFiltersCount = 
+    (filters.search !== '' ? 1 : 0) +
+    (filters.fabric !== 'all' ? 1 : 0) +
+    (filters.occasion !== 'all' ? 1 : 0) +
+    (filters.craft !== 'all' ? 1 : 0) +
+    (filters.color !== 'all' ? 1 : 0) +
+    (filters.priceRange[1] < 60000 ? 1 : 0);
+
   return (
-    <div className="bg-[#0d0d0d] p-5 sm:p-6 rounded-2xl border border-[#262626] space-y-6 shadow-xl sticky top-24">
-      {/* Header & Reset */}
-      <div className="flex items-center justify-between pb-4 border-b border-[#262626]">
-        <div className="flex items-center gap-2 text-white">
+    <div className="bg-[#0d0d0d] p-4 sm:p-6 rounded-2xl border border-[#262626] shadow-xl sticky top-20 sm:top-24">
+      {/* Mobile Toggle Bar / Desktop Header */}
+      <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-[#262626]">
+        <button
+          type="button"
+          onClick={() => setIsMobileOpen(!isMobileOpen)}
+          className="flex items-center gap-2 text-white text-left cursor-pointer lg:cursor-default"
+        >
           <Filter className="w-4 h-4 text-[#c5a059]" />
           <h3 className="font-serif text-sm font-semibold uppercase tracking-[0.2em]">Filter Sarees</h3>
           <span className="text-[10px] font-mono font-medium text-[#c5a059] bg-[#1a1a1a] px-2 py-0.5 rounded-full border border-[#333333]">
             {totalCount}
           </span>
-        </div>
+          {activeFiltersCount > 0 && (
+            <span className="bg-[#c5a059] text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full">
+              {activeFiltersCount} active
+            </span>
+          )}
+          <span className="lg:hidden text-[#c5a059] ml-1">
+            {isMobileOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </span>
+        </button>
 
         {isFiltered && (
           <button
@@ -61,6 +83,9 @@ export const SareeFilters: React.FC<SareeFiltersProps> = ({
           </button>
         )}
       </div>
+
+      {/* Filter Body - Collapsible on Mobile, always open on lg */}
+      <div className={`space-y-6 pt-4 ${isMobileOpen ? 'block' : 'hidden lg:block'}`}>
 
       {/* Fabric / Saree Cluster */}
       <div className="space-y-2.5">
@@ -206,6 +231,7 @@ export const SareeFilters: React.FC<SareeFiltersProps> = ({
           <span>₹5,000</span>
           <span>₹60,000+</span>
         </div>
+      </div>
       </div>
     </div>
   );

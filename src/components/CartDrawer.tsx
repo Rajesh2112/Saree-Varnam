@@ -51,8 +51,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onToggleGiftWrap,
   onUpdateGiftNote
 }) => {
-  if (!isOpen) return null;
-
   const [promoCode, setPromoCode] = useState('');
   const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
   const [promoError, setPromoError] = useState<string | null>(null);
@@ -102,6 +100,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       onUpdateGiftNote(cartId, preset);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/80 backdrop-blur-sm flex justify-end animate-in fade-in">

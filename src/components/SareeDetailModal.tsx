@@ -27,8 +27,6 @@ export const SareeDetailModal: React.FC<SareeDetailModalProps> = ({
   onOpenDrapeGuide,
   onOpenSilkCare
 }) => {
-  if (!saree) return null;
-
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [selectedBlouse, setSelectedBlouse] = useState<BlouseOption>(BLOUSE_STITCHING_OPTIONS[0]);
   const [selectedBustSize, setSelectedBustSize] = useState('36" (Medium)');
@@ -55,6 +53,8 @@ export const SareeDetailModal: React.FC<SareeDetailModalProps> = ({
     { name: 'Raw Sandalwood Ivory', hex: '#e7e5e4', harmonyScore: 95, note: 'Dawn Puja Elegance' }
   ];
   const [selectedContrast, setSelectedContrast] = useState(contrastSwatches[0]);
+
+  if (!saree) return null;
 
   const discount = calculateDiscount(saree.originalPrice, saree.price);
   const totalItemPrice = saree.price + selectedBlouse.price + (includeGiftWrap ? 250 : 0);
@@ -615,7 +615,7 @@ export const SareeDetailModal: React.FC<SareeDetailModalProps> = ({
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 pt-3">
+              <div className="flex flex-col sm:flex-row gap-3 pt-3">
                 <button
                   id="modal-add-to-cart-btn"
                   onClick={() => {

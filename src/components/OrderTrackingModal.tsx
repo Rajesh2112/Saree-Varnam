@@ -19,10 +19,13 @@ import {
   Package,
   Layers,
   Award,
-  PhoneCall
+  PhoneCall,
+  FileText
 } from 'lucide-react';
 import { TrackedOrder, TrackingStage } from '../types';
 import { PREDEFINED_TRACKED_ORDERS, getTrackedOrder } from '../data/trackingOrdersData';
+import { SAREES_DATA, BLOUSE_STITCHING_OPTIONS } from '../data/sareesData';
+import { generateInvoicePDF } from '../utils/generateInvoicePDF';
 
 interface OrderTrackingModalProps {
   isOpen: boolean;
@@ -35,8 +38,6 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
   onClose,
   initialOrderNumber = 'VRN-84920'
 }) => {
-  if (!isOpen) return null;
-
   const [inputOrderNumber, setInputOrderNumber] = useState(initialOrderNumber || 'VRN-84920');
   const [trackedOrder, setTrackedOrder] = useState<TrackedOrder>(() => 
     getTrackedOrder(initialOrderNumber || 'VRN-84920')
@@ -71,6 +72,32 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
     setTimeout(() => setCopied(false), 2200);
   };
 
+  const handleDownloadInvoice = () => {
+    if (!trackedOrder) return;
+    const matchingSaree = SAREES_DATA.find(s => s.name.toLowerCase() === trackedOrder.sareeName.toLowerCase()) || SAREES_DATA[0];
+    generateInvoicePDF({
+      orderNumber: trackedOrder.orderNumber,
+      cartItems: [
+        {
+          cartId: `tracked-${trackedOrder.orderNumber}`,
+          saree: matchingSaree,
+          blouseOption: BLOUSE_STITCHING_OPTIONS[1],
+          bustSize: '36" (Medium)',
+          fallPico: true,
+          giftWrap: true,
+          quantity: 1
+        }
+      ],
+      currency: 'INR',
+      total: matchingSaree.price + BLOUSE_STITCHING_OPTIONS[1].price + 250,
+      transactionId: `TXN-${trackedOrder.orderNumber}`,
+      paymentMethod: 'UPI / NetBanking',
+      gateway: 'Atelier Vault Gateway',
+      recipientName: 'Valued Patron',
+      destinationCity: trackedOrder.destinationCity
+    });
+  };
+
   const getStageIcon = (iconName: TrackingStage['iconName'], status: string) => {
     const isCurrent = status === 'current';
     const isCompleted = status === 'completed';
@@ -97,6 +124,8 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
         return <Package className={`w-5 h-5 ${colorClass}`} />;
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in">
@@ -232,6 +261,15 @@ export const OrderTrackingModal: React.FC<OrderTrackingModalProps> = ({
                     <span className="text-[10px] text-[#4ade80] bg-[#14532d]/40 border border-[#22c55e]/30 px-2 py-0.5 rounded flex items-center gap-1">
                       <ShieldCheck className="w-3 h-3" /> Silk Mark ID: {trackedOrder.silkMarkId}
                     </span>
+                    <button
+                      id="tracking-download-pdf-invoice-btn"
+                      onClick={handleDownloadInvoice}
+                      className="text-[10px] text-[#c5a059] bg-[#1a1710] hover:bg-[#251f15] border border-[#c5a059]/40 hover:border-[#c5a059] px-2.5 py-0.5 rounded flex items-center gap-1 transition-all cursor-pointer font-medium"
+                      title="Download Official Varnam PDF Tax Invoice"
+                    >
+                      <FileText className="w-3 h-3 text-[#c5a059]" />
+                      <span>Download PDF Invoice</span>
+                    </button>
                   </div>
                 </div>
               </div>

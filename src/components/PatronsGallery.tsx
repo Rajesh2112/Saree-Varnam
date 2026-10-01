@@ -51,7 +51,7 @@ export const PatronsGallery: React.FC<PatronsGalleryProps> = ({
           </div>
           
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light text-white tracking-tight">
-            Heirlooms in <span className="italic text-[#c5a059]">Motion</span>
+            Heirlooms in <span className="italic text-[#c5a059]">Motion</span> – Real Bridal Saree Moments
           </h2>
           
           <p className="text-xs sm:text-sm text-[#a1a1aa] font-light leading-relaxed">

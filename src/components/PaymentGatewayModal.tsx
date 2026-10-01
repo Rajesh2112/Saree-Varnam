@@ -48,8 +48,6 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
   appliedPromo,
   onPaymentSuccess,
 }) => {
-  if (!isOpen) return null;
-
   // Checkout Steps: 1: Shipping Details, 2: Payment Gateway, 3: Processing / Verification
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>('upi');
@@ -250,6 +248,8 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
     }
   };
 
+  if (!isOpen) return null;
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in">
       <div 
@@ -281,7 +281,7 @@ export const PaymentGatewayModal: React.FC<PaymentGatewayModalProps> = ({
             </div>
 
             {/* Stepper Indicator */}
-            <div className="flex items-center gap-2 pt-1 text-xs">
+            <div className="flex items-center gap-2 pt-1 text-xs overflow-x-auto whitespace-nowrap pb-1">
               <span className={`flex items-center gap-1 font-medium ${step === 1 ? 'text-[#c5a059]' : 'text-[#4ade80]'}`}>
                 <span className="w-5 h-5 rounded-full border flex items-center justify-center text-[10px]">
                   {step > 1 ? '✓' : '1'}

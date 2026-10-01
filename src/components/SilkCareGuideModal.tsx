@@ -33,8 +33,6 @@ export const SilkCareGuideModal: React.FC<SilkCareGuideModalProps> = ({
   isOpen,
   onClose
 }) => {
-  if (!isOpen) return null;
-
   const [activeTab, setActiveTab] = useState<CareTab>('storage');
   const [selectedStain, setSelectedStain] = useState<string>('haldi');
   const [copied, setCopied] = useState(false);
@@ -88,6 +86,8 @@ export const SilkCareGuideModal: React.FC<SilkCareGuideModalProps> = ({
       forbidden: 'Never use a hot hairdryer on high heat or expose damp silk to harsh sunlight, which makes the mulberry threads brittle.'
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in">

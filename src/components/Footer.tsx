@@ -196,6 +196,39 @@ export const Footer: React.FC<FooterProps> = ({
 
         </div>
 
+        {/* SEO Keywords & Popular Handloom Searches Strip */}
+        <div className="py-8 border-b border-[#1f1f1f] space-y-3">
+          <h4 className="font-serif text-xs font-semibold text-[#c5a059] uppercase tracking-[0.2em] flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-[#c5a059]" />
+            <span>Popular Saree Searches & Handloom Heritage Keywords</span>
+          </h4>
+          <div className="flex flex-wrap gap-2 text-[11px] text-[#8e8e93]">
+            {[
+              'Pure Kanjivaram Silk Sarees',
+              'Banarasi Kadhwa Zari Sarees',
+              'Bridal Wedding Sarees Online',
+              'Silk Mark Certified Handloom Silk',
+              'Lightweight Organza Pastel Sarees',
+              'Chanderi Silk Cotton Drapes',
+              'Paithani Peacock Pallu Sarees',
+              'Temple Border Pattu Sarees',
+              'Tussar Raw Silk Saree Collection',
+              'Custom Blouse Stitching & Saree Hemming',
+              'Designer Festive Party Wear Sarees',
+              'Handwoven Traditional Bridal Trousseau',
+              'Korvai Technique Pit-Loom Sarees',
+              'Pure Gold Zari Heirloom Sarees'
+            ].map((keyword) => (
+              <span 
+                key={keyword}
+                className="bg-[#121212] hover:bg-[#1a1a1a] hover:text-[#c5a059] border border-[#262626] px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+              >
+                {keyword}
+              </span>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#71717a] gap-4 border-t border-[#1f1f1f]">
           <p>© 2026 Varnam Handloom Guild. Handcrafted with reverence for Indian artisans.</p>

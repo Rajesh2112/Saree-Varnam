@@ -44,30 +44,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </div>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white leading-[1.08] tracking-tight">
+            <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white leading-[1.1] tracking-tight">
               The Art of <br className="hidden sm:inline" />
               <span className="italic text-[#c5a059]">the Drape</span>
+              <span className="block text-xs sm:text-sm md:text-base font-sans font-medium tracking-[0.2em] uppercase text-[#c5a059]/90 mt-2 sm:mt-3">
+                Pure Silk Sarees & Luxury Handloom Bridal Drapes
+              </span>
             </h1>
 
-            <p className="text-[#a1a1aa] text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
-              Hand-woven masterpieces from the sacred pit-looms of Kanchipuram, Varanasi, Patan, and Chanderi. Each thread tells a story of heritage, patience, and absolute grace.
+            <p className="text-[#a1a1aa] text-sm sm:text-base md:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed font-light">
+              Handcrafted Silk Mark certified sarees from the sacred pit-looms of Kanchipuram, Varanasi, Patan, and Chanderi. Pure zari borders, generational craftsmanship, and complimentary fall & pico hemming.
             </p>
 
             {/* Primary Action Buttons */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-2 w-full sm:w-auto">
               <button
                 id="hero-explore-collection-btn"
                 onClick={onExploreClick}
-                className="flex items-center gap-2 bg-[#c5a059] hover:bg-[#d4b476] text-black px-7 py-3.5 rounded-xl text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-lg hover:shadow-[#c5a059]/20 transform hover:-translate-y-0.5 cursor-pointer"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#c5a059] hover:bg-[#d4b476] text-black px-7 py-3.5 rounded-xl text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-300 shadow-lg hover:shadow-[#c5a059]/20 transform hover:-translate-y-0.5 cursor-pointer"
               >
-                <span>Explore Sarees</span>
+                <span>Explore Pure Silk Sarees</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <button
                 id="hero-style-finder-btn"
                 onClick={onOpenFinder}
-                className="flex items-center gap-2 bg-[#121212] hover:bg-[#1a1a1a] text-[#e5e5e5] hover:text-[#c5a059] border border-[#262626] hover:border-[#c5a059]/50 px-6 py-3.5 rounded-xl text-[11px] uppercase tracking-[0.2em] font-medium transition-all duration-300 cursor-pointer shadow-sm"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#121212] hover:bg-[#1a1a1a] text-[#e5e5e5] hover:text-[#c5a059] border border-[#262626] hover:border-[#c5a059]/50 px-6 py-3.5 rounded-xl text-[11px] uppercase tracking-[0.2em] font-medium transition-all duration-300 cursor-pointer shadow-sm"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#c5a059]" />
                 <span>Saree Style Quiz</span>

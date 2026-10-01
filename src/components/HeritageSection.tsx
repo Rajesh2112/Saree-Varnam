@@ -22,7 +22,7 @@ export const HeritageSection: React.FC<HeritageSectionProps> = ({ onSelectRegion
           </div>
 
           <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-light text-white tracking-wide">
-            Preserving 2,000 Years of Indian Pit-Loom Art
+            Preserving 2,000 Years of Indian Handloom & Pure Silk Weaving
           </h2>
 
           <p className="text-[#a1a1aa] text-xs sm:text-sm leading-relaxed font-light">

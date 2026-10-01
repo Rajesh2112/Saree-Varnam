@@ -11,10 +11,10 @@ export const DrapeGuideModal: React.FC<DrapeGuideModalProps> = ({
   isOpen,
   onClose
 }) => {
-  if (!isOpen) return null;
-
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [selectedStyle, setSelectedStyle] = useState<'nivi' | 'bengali' | 'gujarati' | 'belted'>('nivi');
+
+  if (!isOpen) return null;
 
   const currentStep = DRAPING_GUIDE_STEPS[activeStepIndex];
 

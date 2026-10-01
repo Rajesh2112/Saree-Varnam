@@ -1,7 +1,8 @@
-import React from 'react';
-import { CheckCircle2, PackageCheck, Truck, ShieldCheck, Download, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { CheckCircle2, PackageCheck, Truck, ShieldCheck, Download, X, FileText } from 'lucide-react';
 import { CartItem, Currency } from '../types';
 import { formatPrice } from '../utils/formatters';
+import { generateInvoicePDF } from '../utils/generateInvoicePDF';
 
 interface OrderSuccessModalProps {
   isOpen: boolean;
@@ -32,6 +33,8 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
   recipientName,
   destinationCity,
 }) => {
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+
   if (!isOpen) return null;
 
   const total = cartItems.reduce((sum, item) => {
@@ -39,35 +42,24 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
   }, 0);
 
   const handleDownloadInvoice = () => {
-    const invoiceContent = `
-========================================
-     VARNAM HANDLOOM COUTURE ATELIER
-         OFFICIAL TAX INVOICE
-========================================
-Order Reference: #${orderNumber}
-Payment Gateway: ${gateway}
-Transaction ID: ${transactionId || `TXN-${orderNumber}`}
-Payment Method: ${paymentMethod.toUpperCase()}
-Date: ${new Date().toLocaleDateString('en-IN', { dateStyle: 'full' })}
-Recipient: ${recipientName || 'Valued Patron'}
-Destination: ${destinationCity || 'India'}
-Authentication: Silk Mark Certified Pure Silk
-----------------------------------------
-Items:
-${cartItems.map((item, i) => `${i + 1}. ${item.saree.name} (${item.saree.fabric})\n   Qty: ${item.quantity} | Blouse: ${item.blouseOption.name} | Total: ${item.saree.price * item.quantity}`).join('\n')}
-----------------------------------------
-Grand Total: ${currency} ${total}
-Payment Status: VERIFIED & CAPTURED (256-bit SSL)
-========================================
-Thank you for supporting handloom weaving families across Kanchipuram, Varanasi, Chanderi and Paithan.
-`;
-    const blob = new Blob([invoiceContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Invoice-${orderNumber}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+    setIsGeneratingPdf(true);
+    try {
+      generateInvoicePDF({
+        orderNumber,
+        cartItems,
+        currency,
+        total,
+        transactionId: transactionId || `TXN-${orderNumber}`,
+        paymentMethod: paymentMethod || 'UPI',
+        gateway: gateway || 'Atelier Vault Gateway',
+        recipientName: recipientName || 'Valued Patron',
+        destinationCity: destinationCity || 'India'
+      });
+    } catch (err) {
+      console.error('Error generating PDF invoice:', err);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   };
 
   return (
@@ -179,11 +171,14 @@ Thank you for supporting handloom weaving families across Kanchipuram, Varanasi,
         {/* Buttons */}
         <div className="space-y-2.5">
           <button
+            id="download-pdf-invoice-btn"
             onClick={handleDownloadInvoice}
-            className="w-full py-2.5 bg-[#171717] hover:bg-[#212121] text-[#c5a059] border border-[#c5a059]/40 rounded-xl font-medium uppercase tracking-[0.1em] text-xs transition-all cursor-pointer flex items-center justify-center gap-2"
+            disabled={isGeneratingPdf}
+            className="w-full py-3 bg-[#171510] hover:bg-[#241e14] text-[#c5a059] border border-[#c5a059]/60 rounded-xl font-bold uppercase tracking-[0.14em] text-xs transition-all cursor-pointer flex items-center justify-center gap-2 shadow-xs"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>Download Official Tax Invoice</span>
+            <FileText className="w-4 h-4 text-[#c5a059]" />
+            <span>{isGeneratingPdf ? 'Generating PDF...' : 'Download PDF Tax Invoice (Varnam Branded)'}</span>
+            <span className="bg-[#c5a059] text-black text-[9px] font-mono px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">PDF</span>
           </button>
 
           <button

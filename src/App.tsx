@@ -375,10 +375,10 @@ export default function App() {
               The Handloom Catalog
             </div>
             <h2 className="font-serif text-2xl sm:text-3xl font-light text-white tracking-wide">
-              {filters.fabric === 'all' ? 'All Handcrafted Sarees' : `${filters.fabric} Collection`}
+              {filters.fabric === 'all' ? 'All Handcrafted Pure Silk & Designer Sarees' : `${filters.fabric} Sarees Collection`}
             </h2>
             <p className="text-xs sm:text-sm text-[#a1a1aa] mt-1">
-              Showing {filteredSarees.length} pure silk and handloom drapes certified with Silk Mark holograms
+              Explore {filteredSarees.length} Silk Mark certified authentic handloom drapes — Kanjivaram silk, Banarasi zari, lightweight organza, and Chanderi with complimentary fall & pico hemming.
             </p>
           </div>
 
@@ -506,117 +506,137 @@ export default function App() {
       />
 
       {/* Saree Detail Modal */}
-      <SareeDetailModal
-        saree={selectedSaree}
-        currency={currency}
-        isWishlisted={selectedSaree ? isWishlisted(selectedSaree.id) : false}
-        onClose={() => setSelectedSaree(null)}
-        onToggleWishlist={handleToggleWishlist}
-        onAddToCartWithOptions={handleAddToCartWithOptions}
-        onBuyNow={handleBuyNow}
-        onOpenDrapeGuide={() => {
-          setSelectedSaree(null);
-          setIsDrapeGuideOpen(true);
-        }}
-        onOpenSilkCare={() => {
-          setIsSilkCareOpen(true);
-        }}
-      />
+      {selectedSaree && (
+        <SareeDetailModal
+          saree={selectedSaree}
+          currency={currency}
+          isWishlisted={isWishlisted(selectedSaree.id)}
+          onClose={() => setSelectedSaree(null)}
+          onToggleWishlist={handleToggleWishlist}
+          onAddToCartWithOptions={handleAddToCartWithOptions}
+          onBuyNow={handleBuyNow}
+          onOpenDrapeGuide={() => {
+            setSelectedSaree(null);
+            setIsDrapeGuideOpen(true);
+          }}
+          onOpenSilkCare={() => {
+            setIsSilkCareOpen(true);
+          }}
+        />
+      )}
 
       {/* Shopping Bag Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        cartItems={cartItems}
-        currency={currency}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onCheckout={handleInitiateCheckout}
-        onToggleGiftWrap={handleToggleGiftWrap}
-        onUpdateGiftNote={handleUpdateGiftNote}
-      />
+      {isCartOpen && (
+        <CartDrawer
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          cartItems={cartItems}
+          currency={currency}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+          onCheckout={handleInitiateCheckout}
+          onToggleGiftWrap={handleToggleGiftWrap}
+          onUpdateGiftNote={handleUpdateGiftNote}
+        />
+      )}
 
       {/* Saved Sarees Wishlist Drawer */}
-      <WishlistDrawer
-        isOpen={isWishlistOpen}
-        onClose={() => setIsWishlistOpen(false)}
-        wishlist={wishlist}
-        currency={currency}
-        onRemoveFromWishlist={handleRemoveFromWishlist}
-        onMoveToBag={handleAddToCart}
-        onQuickView={(s) => setSelectedSaree(s)}
-      />
+      {isWishlistOpen && (
+        <WishlistDrawer
+          isOpen={isWishlistOpen}
+          onClose={() => setIsWishlistOpen(false)}
+          wishlist={wishlist}
+          currency={currency}
+          onRemoveFromWishlist={handleRemoveFromWishlist}
+          onMoveToBag={handleAddToCart}
+          onQuickView={(s) => setSelectedSaree(s)}
+        />
+      )}
 
       {/* Saree Style Finder Quiz */}
-      <SareeFinderQuiz
-        isOpen={isFinderOpen}
-        onClose={() => setIsFinderOpen(false)}
-        currency={currency}
-        onSelectSaree={(s) => setSelectedSaree(s)}
-        onAddToCart={handleAddToCart}
-      />
+      {isFinderOpen && (
+        <SareeFinderQuiz
+          isOpen={isFinderOpen}
+          onClose={() => setIsFinderOpen(false)}
+          currency={currency}
+          onSelectSaree={(s) => setSelectedSaree(s)}
+          onAddToCart={handleAddToCart}
+        />
+      )}
 
       {/* Saree Draping Masterclass */}
-      <DrapeGuideModal
-        isOpen={isDrapeGuideOpen}
-        onClose={() => setIsDrapeGuideOpen(false)}
-      />
+      {isDrapeGuideOpen && (
+        <DrapeGuideModal
+          isOpen={isDrapeGuideOpen}
+          onClose={() => setIsDrapeGuideOpen(false)}
+        />
+      )}
 
       {/* Interactive Bridal Trousseau Trunk Builder Modal */}
-      <BridalTrousseauModal
-        isOpen={isTrousseauOpen}
-        onClose={() => setIsTrousseauOpen(false)}
-        currency={currency}
-        onSelectSaree={(saree) => setSelectedSaree(saree)}
-        onAddTrousseauToCart={handleAddTrousseauToCart}
-      />
+      {isTrousseauOpen && (
+        <BridalTrousseauModal
+          isOpen={isTrousseauOpen}
+          onClose={() => setIsTrousseauOpen(false)}
+          currency={currency}
+          onSelectSaree={(saree) => setSelectedSaree(saree)}
+          onAddTrousseauToCart={handleAddTrousseauToCart}
+        />
+      )}
 
       {/* Heirloom Silk & Zari Care Guide Modal */}
-      <SilkCareGuideModal
-        isOpen={isSilkCareOpen}
-        onClose={() => setIsSilkCareOpen(false)}
-      />
+      {isSilkCareOpen && (
+        <SilkCareGuideModal
+          isOpen={isSilkCareOpen}
+          onClose={() => setIsSilkCareOpen(false)}
+        />
+      )}
 
       {/* Order Tracking Modal */}
-      <OrderTrackingModal
-        isOpen={isTrackingOpen}
-        onClose={() => setIsTrackingOpen(false)}
-        initialOrderNumber={trackingOrderNumber}
-      />
+      {isTrackingOpen && (
+        <OrderTrackingModal
+          isOpen={isTrackingOpen}
+          onClose={() => setIsTrackingOpen(false)}
+          initialOrderNumber={trackingOrderNumber}
+        />
+      )}
 
       {/* Atelier Payment Gateway Modal */}
-      <PaymentGatewayModal
-        isOpen={isPaymentGatewayOpen}
-        onClose={() => setIsPaymentGatewayOpen(false)}
-        cartItems={cartItems}
-        currency={currency}
-        subtotal={cartSubtotal}
-        discountAmount={discountAmount}
-        shipping={shipping}
-        grandTotal={grandTotal}
-        appliedPromo={appliedPromo}
-        onPaymentSuccess={handlePaymentSuccess}
-      />
+      {isPaymentGatewayOpen && (
+        <PaymentGatewayModal
+          isOpen={isPaymentGatewayOpen}
+          onClose={() => setIsPaymentGatewayOpen(false)}
+          cartItems={cartItems}
+          currency={currency}
+          subtotal={cartSubtotal}
+          discountAmount={discountAmount}
+          shipping={shipping}
+          grandTotal={grandTotal}
+          appliedPromo={appliedPromo}
+          onPaymentSuccess={handlePaymentSuccess}
+        />
+      )}
 
       {/* Order Success Confirmation Modal */}
-      <OrderSuccessModal
-        isOpen={orderSuccessModalData.isOpen}
-        onClose={() => setOrderSuccessModalData({ isOpen: false, orderNumber: '', items: [] })}
-        orderNumber={orderSuccessModalData.orderNumber}
-        cartItems={orderSuccessModalData.items}
-        currency={currency}
-        transactionId={paymentResult?.transactionId}
-        paymentMethod={paymentResult?.paymentMethod}
-        gateway={paymentResult?.gateway}
-        recipientName={paymentResult?.shippingAddress.fullName}
-        destinationCity={paymentResult?.shippingAddress.city}
-        onContinueShopping={() => setOrderSuccessModalData({ isOpen: false, orderNumber: '', items: [] })}
-        onTrackOrder={(orderNum) => {
-          setOrderSuccessModalData({ isOpen: false, orderNumber: '', items: [] });
-          setTrackingOrderNumber(orderNum);
-          setIsTrackingOpen(true);
-        }}
-      />
+      {orderSuccessModalData.isOpen && (
+        <OrderSuccessModal
+          isOpen={orderSuccessModalData.isOpen}
+          onClose={() => setOrderSuccessModalData({ isOpen: false, orderNumber: '', items: [] })}
+          orderNumber={orderSuccessModalData.orderNumber}
+          cartItems={orderSuccessModalData.items}
+          currency={currency}
+          transactionId={paymentResult?.transactionId}
+          paymentMethod={paymentResult?.paymentMethod}
+          gateway={paymentResult?.gateway}
+          recipientName={paymentResult?.shippingAddress.fullName}
+          destinationCity={paymentResult?.shippingAddress.city}
+          onContinueShopping={() => setOrderSuccessModalData({ isOpen: false, orderNumber: '', items: [] })}
+          onTrackOrder={(orderNum) => {
+            setOrderSuccessModalData({ isOpen: false, orderNumber: '', items: [] });
+            setTrackingOrderNumber(orderNum);
+            setIsTrackingOpen(true);
+          }}
+        />
+      )}
 
     </div>
   );
